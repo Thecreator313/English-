@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bilingual Essay App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .active {
+      color: #2563eb;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div id="content" class="p-4">
+    <!-- Content will load here -->
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 w-full bg-white shadow-md flex justify-around py-2 border-t">
+    <button onclick="navigateTo('makeessay.html')" class="text-center">
+      <i class="fas fa-pen text-xl"></i><br><span class="text-xs">Essay</span>
+    </button>
+    <button onclick="navigateTo('vocab.html')" class="text-center">
+      <i class="fas fa-book text-xl"></i><br><span class="text-xs">Vocab</span>
+    </button>
+    <button onclick="navigateTo('grammar.html')" class="text-center">
+      <i class="fas fa-spell-check text-xl"></i><br><span class="text-xs">Grammar</span>
+    </button>
+    <button onclick="navigateTo('quotes.html')" class="text-center">
+      <i class="fas fa-quote-right text-xl"></i><br><span class="text-xs">Quotes</span>
+    </button>
+  </nav>
+
+  <script>
+    function navigateTo(page) {
+      fetch(page)
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('content').innerHTML = html;
+          showNotification(page);
+        });
+    }
+
+    function showNotification(page) {
+      let message = '';
+      switch (page) {
+        case 'makeessay.html':
+          message = 'Ready to write your essay!';
+          break;
+        case 'vocab.html':
+          message = 'Learn new words today!';
+          break;
+        case 'grammar.html':
+          message = 'Practice your grammar!';
+          break;
+        case 'quotes.html':
+          message = 'Get inspired!';
+          break;
+      }
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'info',
+        title: message,
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+
+    // Load default page
+    navigateTo('makeessay.html');
+  </script>
+
+</body>
+</html>
 
