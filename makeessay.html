@@ -1,0 +1,73 @@
+<!-- makeessay.html -->
+<div class="space-y-4">
+  <div class="flex justify-between items-center">
+    <h2 class="text-xl font-bold">Essay Writing</h2>
+    <button id="toggleLang" class="bg-blue-500 text-white px-3 py-1 rounded-md text-sm">
+      Switch to Arabic
+    </button>
+  </div>
+
+  <div id="essayPrompt" class="text-md font-medium text-gray-700">
+    Write an essay about how technology is changing education.
+  </div>
+
+  <textarea id="essayInput" rows="10" class="w-full p-3 border rounded-md text-gray-800"
+    placeholder="Start writing your essay here..."></textarea>
+
+  <button onclick="submitEssay()" class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold">
+    Submit Essay
+  </button>
+
+  <div id="corrections" class="mt-4 text-sm text-red-500">
+    <!-- Grammar suggestions will appear here -->
+  </div>
+</div>
+
+<script>
+  let currentLang = "en";
+
+  document.getElementById("toggleLang").addEventListener("click", () => {
+    if (currentLang === "en") {
+      currentLang = "ar";
+      document.documentElement.setAttribute("dir", "rtl");
+      document.getElementById("toggleLang").innerText = "Switch to English";
+      document.getElementById("essayPrompt").innerText = "اكتب مقالة عن كيف تغير التكنولوجيا مجال التعليم.";
+      document.getElementById("essayInput").placeholder = "ابدأ كتابة مقالتك هنا...";
+    } else {
+      currentLang = "en";
+      document.documentElement.setAttribute("dir", "ltr");
+      document.getElementById("toggleLang").innerText = "Switch to Arabic";
+      document.getElementById("essayPrompt").innerText = "Write an essay about how technology is changing education.";
+      document.getElementById("essayInput").placeholder = "Start writing your essay here...";
+    }
+  });
+
+  function submitEssay() {
+    const text = document.getElementById("essayInput").value.trim();
+    if (text === "") {
+      Swal.fire("Oops!", "Essay is empty!", "warning");
+      return;
+    }
+
+    // Show placeholder grammar checker
+    document.getElementById("corrections").innerHTML = `
+      <p><strong>Suggestions:</strong></p>
+      <ul class="list-disc ml-4">
+        <li>Check verb tenses.</li>
+        <li>Consider using formal words.</li>
+        <li>Rephrase long sentences for clarity.</li>
+      </ul>
+    `;
+
+    Swal.fire({
+      icon: "success",
+      title: "Essay Submitted!",
+      toast: true,
+      position: "top",
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+    // TODO: Save essay to Firebase with language, timestamp, and content
+  }
+</script>
